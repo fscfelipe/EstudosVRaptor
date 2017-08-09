@@ -1,0 +1,155 @@
+package br.com.casadocodigo.livraria.controlador;
+
+import java.util.List;
+
+import br.com.caelum.vraptor.Get;
+import br.com.caelum.vraptor.Path;
+import br.com.caelum.vraptor.Resource;
+import br.com.caelum.vraptor.Result;
+import br.com.caelum.vraptor.view.Results;
+import br.com.casadocodigo.livraria.modelo.Estante;
+import br.com.casadocodigo.livraria.modelo.Livro;
+
+/* Para que o VRaptor passe a gerenciar essa classe como um controlador, preci-
+samos anotá-la com @Resource . Isso significa que essa classe controla um dos
+recursos da aplicação, no caso os livros. Chamamos de recursos os dados que a apli-
+cação produz e/ou gerencia e, ao colocarmos o @Resouce em uma classe dizemos
+ao VRaptor que essa classe será o ponto de acesso via Web de algum dos recursos do
+sistema.*/
+
+@Resource
+public class LivrosController {
+
+	public final Estante estante;
+	public final Result result;
+
+	// Preferir receber interfaces como dependências
+	// principalmente quando a implementação depende de uma biblioteca externa.
+	// Prática: Inversão de controle - Técnica: Injeção de dependências
+
+	/*
+	 * Nessa técnica, evitamos que a classe controle a criação e o gerenciamento das
+	 * suas dependências. Em vez disso, declaramos quais são os componentes
+	 * necessários para o funcionamento de cada classe e confiamos que instâncias
+	 * funcionais dos componentes serão injetados antes que a classe seja usada.
+	 * Assim, a responsabilidade de criar e gerenciar os componentes do sistema vai
+	 * sendo empurrada para camadas inferiores até que a centralizamos num
+	 * componente especializado que coordenará a injeção das dependências nos
+	 * lugares certos.
+	 * 
+	 * Esse componente especializado é chamado de container ou provedor (provi- der)
+	 * de dependências. Dessa forma, cada componente declara quais são as suas de-
+	 * pendências, se possível como interfaces para ficarmos livres para usar
+	 * qualquer im- plementação, e registramos esse componente como uma
+	 * implementação disponível para a injeção no container.
+	 * 
+	 * Ao tentar instanciar o componente, o container buscará cada dependência e, se
+	 * necessário, criará uma nova instância dessa dependência, que também tem suas
+	 * pró- prias dependências e esse processo segue até que todas as dependências
+	 * sejam resol- vidas e, então, o componente requisitado estará criado e pronto
+	 * para usar.
+	 * 
+	 * Ao recebermos uma Estante no construtor, estamos declarando que o
+	 * LivrosController não pode ser criado sem antes receber uma Estante preen-
+	 * chida e funcionando, ou seja, declaramos que Estante é uma dependência. Como
+	 * o controller é uma classe gerenciada pelo VRaptor (por causa do @Resource ),
+	 * o VRaptor tentará buscar uma implementação de Estante candidata a ser
+	 * injetada. Como Estante é uma interface, precisamos indicar qual é a
+	 * implementação dessa interface que desejamos usar no sistema. Fazemos isso
+	 * escolhendo a classe que im- plementa Estante mais apropriada e anotando-a
+	 * com @Component
+	 * 
+	 * 
+	 */
+
+	public LivrosController(Estante estante, Result result) {
+		this.estante = estante;
+		this.result = result;
+	}
+	
+	/*Essa classe Result é o componente do VRaptor responsável pela personaliza-
+	ção do resultado final da execução do método do controller. Além de receber no
+	método, podemos recebê-lo no construtor da classe, principalmente se formos usar
+	o Result na maioria dos métodos.*/
+
+	public void formulario() {
+		// WEB-INF/jsp/livros/formulario.jsp
+	}
+
+	//public List<Livro> lista()
+	public void lista() {
+		// WEB-INF/jsp/livros/lista.jsp
+
+		/*
+		 * Vamos mostrar a lista de todos os livros, que iremos buscar de algum lugar
+		 * nesse caso, de uma estante, e queremos deixar essa lista disponível para usar
+		 * na jsp.
+		 */
+
+		this.result.include("livros", this.estante.todosOsLivros());
+		
+		
+		/*
+		 * Por padrão, o VRaptor deixa o retorno dos métodos do controller disponível na
+		 * JSP, seguindo outra convenção. Se o retorno do método é um objeto do tipo
+		 * Livro , ele será colocado numa variável chamada ${livro} , ou seja, nome da
+		 * classe com a primeira letra em minúsculo. No caso do retorno ser uma
+		 * List<Livro> , o nome da variável no JSP será ${livroList} , ou seja, o nome
+		 * da classe dos elementos da lista com a primeira minúscula, seguido de List.
+		 */
+
+	}
+
+	public void salva(Livro livro) {
+		// WEB-INF/jsp/livros/salva.jsp
+
+		/*
+		 * par redirecionar o método, pois iremos agora apresentar uma mensagem de livro
+		 * adicionado e não mais utilizar a página salva.jsp
+		 */
+
+		estante.guarda(livro);
+
+		/*
+		 * Precisamos redirecionar o método para lista() pois precisamos da variável da
+		 * estante para mostrar os livros novamente, e também iremos adicionar uma
+		 * mensagem de notificação no redirecionamento.
+		 */
+		
+		//o include é utilizado para adicionar multiploes objetos. pg.59
+
+		result.include("mensagem", "Livro salvo com sucesso!");
+		result.redirectTo(this).lista();
+	}
+
+	public void edita(String isbn) {
+		/*
+		 * Este método recebe o Result com parâmetro será utilizado para redirecionar a
+		 * página ao invés de utilizar edita.jsp, utilizaremos outra
+		 */
+
+		/*
+		 * Recebe pelo link de 'Modificar' do formulário um parâmetro com o valor do
+		 * ISBN do livro Este método irá utilizar a página de formulário.jsp para fazer
+		 * a edição, uma vez que oe métodos salva e adiciona posuem funçẽso parecidas.
+		 */
+
+		// Apesar do nome da variável ser livroEncontrado
+		// ele será passado para o jsp como 'livro'
+		Livro livroEncontrado = estante.buscaPorIsbn(isbn);
+
+		/*
+		 * Traduzindo, queremos o resultado ( result ) desse controller ( of(this) ) no
+		 * método formulário ( .formulario() ).
+		 */
+		
+		if (livroEncontrado == null) {
+			result.notFound();
+		} else {
+			result.include(livroEncontrado);
+			result.of(this).formulario();
+		}
+
+	}
+
+}
