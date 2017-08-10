@@ -10,7 +10,7 @@ import br.com.caelum.vraptor.Result;
 import br.com.caelum.vraptor.Validator;
 import br.com.caelum.vraptor.validator.ValidationMessage;
 import br.com.caelum.vraptor.view.Results;
-import br.com.casadocodigo.livraria.modelo.Estante;
+import br.com.casadocodigo.livraria.dao.controlador.Estante;
 import br.com.casadocodigo.livraria.modelo.Livro;
 
 /* Para que o VRaptor passe a gerenciar essa classe como um controlador, preci-

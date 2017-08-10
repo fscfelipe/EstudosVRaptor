@@ -1,4 +1,4 @@
-package br.com.casadocodigo.livraria.modelo;
+package br.com.casadocodigo.livraria.factory;
 
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;

@@ -1,10 +1,11 @@
-package br.com.casadocodigo.livraria.modelo;
+package br.com.casadocodigo.livraria.dao;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import br.com.caelum.vraptor.ioc.ApplicationScoped;
 import br.com.caelum.vraptor.ioc.Component;
+import br.com.casadocodigo.livraria.modelo.Livro;
 
 @ApplicationScoped
 @Component

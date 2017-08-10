@@ -1,4 +1,4 @@
-package br.com.casadocodigo.livraria.modelo;
+package br.com.casadocodigo.livraria.dao;
 
 import java.util.List;
 
@@ -6,6 +6,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 
 import br.com.caelum.vraptor.ioc.Component;
+import br.com.casadocodigo.livraria.modelo.Livro;
 
 /*Esta classe é uma dependência do LivrosController, por ela iremos
 utilizar um EntityManager*/

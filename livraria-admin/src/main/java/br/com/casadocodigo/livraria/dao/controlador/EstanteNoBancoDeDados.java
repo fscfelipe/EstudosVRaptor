@@ -1,9 +1,11 @@
-package br.com.casadocodigo.livraria.modelo;
+package br.com.casadocodigo.livraria.dao.controlador;
 
 import java.util.Arrays;
 import java.util.List;
 
 import br.com.caelum.vraptor.ioc.Component;
+import br.com.casadocodigo.livraria.dao.LivroDAO;
+import br.com.casadocodigo.livraria.modelo.Livro;
 
 /*Ao anotar a EstanteNoBancoDeDados com @Component ela passa a ser
 gerenciada pelo VRaptor, que tentará procurar algum componente gerenciado que

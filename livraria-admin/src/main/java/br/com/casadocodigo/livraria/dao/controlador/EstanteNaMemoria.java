@@ -1,9 +1,11 @@
-package br.com.casadocodigo.livraria.modelo;
+package br.com.casadocodigo.livraria.dao.controlador;
 
 import java.util.List;
 
 import br.com.caelum.vraptor.ioc.Component;
 import br.com.caelum.vraptor.ioc.SessionScoped;
+import br.com.casadocodigo.livraria.dao.LivroDAO;
+import br.com.casadocodigo.livraria.modelo.Livro;
 
 /*Foi necessário definir como escopo de sessão, pois cada requisição para o ../lista
 era instanciado um objeto dessa classe, zerando a lista de livros.*/

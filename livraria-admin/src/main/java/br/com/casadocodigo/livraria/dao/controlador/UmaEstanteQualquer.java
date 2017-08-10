@@ -1,7 +1,9 @@
-package br.com.casadocodigo.livraria.modelo;
+package br.com.casadocodigo.livraria.dao.controlador;
 
 import java.util.Arrays;
 import java.util.List;
+
+import br.com.casadocodigo.livraria.modelo.Livro;
 
 public class UmaEstanteQualquer implements Estante {
 
