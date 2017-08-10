@@ -8,6 +8,7 @@ import br.com.caelum.vraptor.Path;
 import br.com.caelum.vraptor.Resource;
 import br.com.caelum.vraptor.Result;
 import br.com.caelum.vraptor.Validator;
+import br.com.caelum.vraptor.validator.I18nMessage;
 import br.com.caelum.vraptor.validator.ValidationMessage;
 import br.com.caelum.vraptor.view.Results;
 import br.com.casadocodigo.livraria.dao.controlador.Estante;
@@ -65,35 +66,38 @@ public class LivrosController {
 	 * 
 	 * 
 	 */
-	
-	//Sobre o validator
-		/*Poderíamos controlar tudo isso manualmente, somente usando o result para
-		mudar o fluxo, mas como essa tarefa de validar se o objeto a ser salvo é bem comum,
-		existe um componente do VRaptor especializado em executar essas validações: o
-		Validator . Nele, podemos adicionar mensagens de erro de validação e, se houver
-		erros, redirecionar a requisição de volta para o formulário, ou seja, exatamente o que
-		a gente queria. Para ter acesso a esse componente, recebemo-lo no construtor. pag.69*/
+
+	// Sobre o validator
+	/*
+	 * Poderíamos controlar tudo isso manualmente, somente usando o result para
+	 * mudar o fluxo, mas como essa tarefa de validar se o objeto a ser salvo é bem
+	 * comum, existe um componente do VRaptor especializado em executar essas
+	 * validações: o Validator . Nele, podemos adicionar mensagens de erro de
+	 * validação e, se houver erros, redirecionar a requisição de volta para o
+	 * formulário, ou seja, exatamente o que a gente queria. Para ter acesso a esse
+	 * componente, recebemo-lo no construtor. pag.69
+	 */
 
 	public LivrosController(Estante estante, Result result, Validator validator) {
 		this.estante = estante;
 		this.result = result;
 		this.validator = validator;
 	}
-	
-	/*Essa classe Result é o componente do VRaptor responsável pela personaliza-
-	ção do resultado final da execução do método do controller. Além de receber no
-	método, podemos recebê-lo no construtor da classe, principalmente se formos usar
-	o Result na maioria dos métodos.
-	  Mais sobre redirecionamento pg.60
-		Diferenças entre o redirectTo e o forwardTo pag.61
-		Praticar o uso do método use do Result pag.64
-	*/
+
+	/*
+	 * Essa classe Result é o componente do VRaptor responsável pela personaliza-
+	 * ção do resultado final da execução do método do controller. Além de receber
+	 * no método, podemos recebê-lo no construtor da classe, principalmente se
+	 * formos usar o Result na maioria dos métodos. Mais sobre redirecionamento
+	 * pg.60 Diferenças entre o redirectTo e o forwardTo pag.61 Praticar o uso do
+	 * método use do Result pag.64
+	 */
 
 	public void formulario() {
 		// WEB-INF/jsp/livros/formulario.jsp
 	}
 
-	//public List<Livro> lista()
+	// public List<Livro> lista()
 	public void lista() {
 		// WEB-INF/jsp/livros/lista.jsp
 
@@ -104,8 +108,7 @@ public class LivrosController {
 		 */
 
 		this.result.include("livros", this.estante.todosOsLivros());
-		
-		
+
 		/*
 		 * Por padrão, o VRaptor deixa o retorno dos métodos do controller disponível na
 		 * JSP, seguindo outra convenção. Se o retorno do método é um objeto do tipo
@@ -120,18 +123,22 @@ public class LivrosController {
 	public void salva(Livro livro) {
 		// WEB-INF/jsp/livros/salva.jsp
 
-		//Infelizmente para a validação precisamos do if's
-		//Pelo que parece o Validator é utilizado para repassar mensagens para
-		//a view caso aconteçam erros.
-				
-		if(livro.getTitulo() == null) {
-			validator.add(new ValidationMessage("O título é obrigatório !", "titulo"));
+		// Infelizmente para a validação precisamos do if's
+		// Pelo que parece o Validator é utilizado para repassar mensagens para
+		// a view caso aconteçam erros.
+
+		if (livro.getTitulo() == null) {
+			validator.add(new I18nMessage("titulo", "campo.obrigatorio", "título"));
 		}
-			
-		if (livro.getPreco() == null || livro.getPreco().compareTo(BigDecimal.ZERO) < 0) {
-			validator.add(new ValidationMessage("preço é obrigatório e deve ser positivo !", "preco"));
+		if (livro.getPreco() == null) {
+			validator.add(new I18nMessage("preco", "campo.obrigatorio", "preco"));
+		} else if (livro.getPreco().compareTo(BigDecimal.ZERO) < 0) {
+			validator.add(new I18nMessage("preco", "campo.maior.que", "preço", 0));
 		}
-				
+		if (livro.getIsbn() == null) {
+			validator.add(new I18nMessage("isbn", "campo.obrigatorio", "isbn"));
+		}
+
 		validator.onErrorRedirectTo(this).formulario();
 
 		estante.guarda(livro);
@@ -141,8 +148,8 @@ public class LivrosController {
 		 * estante para mostrar os livros novamente, e também iremos adicionar uma
 		 * mensagem de notificação no redirecionamento.
 		 */
-		
-		//o include é utilizado para adicionar multiploes objetos. pg.59
+
+		// o include é utilizado para adicionar multiploes objetos. pg.59
 
 		result.include("mensagem", "Livro salvo com sucesso!");
 		result.redirectTo(this).lista();
@@ -168,7 +175,7 @@ public class LivrosController {
 		 * Traduzindo, queremos o resultado ( result ) desse controller ( of(this) ) no
 		 * método formulário ( .formulario() ).
 		 */
-		
+
 		if (livroEncontrado == null) {
 			result.notFound();
 		} else {
@@ -177,21 +184,21 @@ public class LivrosController {
 		}
 
 	}
-	
-	//Após executar esse método, a pagina de lista será chamada
+
+	// Após executar esse método, a pagina de lista será chamada
 	public void exclui(String isbn) {
 		this.estante.exclui(isbn);
-			
+
 		result.include("mensagem", "Livro excluido com sucesso!");
 		result.redirectTo(this).lista();
-			
+
 	}
-	
+
 	public void serialize(String isbn) {
 		Livro livroEncontrado = estante.buscaPorIsbn(isbn);
-		
+
 		result.use(Results.json()).from(livroEncontrado).serialize();
-		
+
 	}
 
 }
