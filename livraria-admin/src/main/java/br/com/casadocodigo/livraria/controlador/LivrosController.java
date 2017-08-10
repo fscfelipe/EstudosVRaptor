@@ -127,17 +127,7 @@ public class LivrosController {
 		// Pelo que parece o Validator é utilizado para repassar mensagens para
 		// a view caso aconteçam erros.
 
-		if (livro.getTitulo() == null) {
-			validator.add(new I18nMessage("titulo", "campo.obrigatorio", "título"));
-		}
-		if (livro.getPreco() == null) {
-			validator.add(new I18nMessage("preco", "campo.obrigatorio", "preco"));
-		} else if (livro.getPreco().compareTo(BigDecimal.ZERO) < 0) {
-			validator.add(new I18nMessage("preco", "campo.maior.que", "preço", 0));
-		}
-		if (livro.getIsbn() == null) {
-			validator.add(new I18nMessage("isbn", "campo.obrigatorio", "isbn"));
-		}
+		validator.validate(livro);
 
 		validator.onErrorRedirectTo(this).formulario();
 
