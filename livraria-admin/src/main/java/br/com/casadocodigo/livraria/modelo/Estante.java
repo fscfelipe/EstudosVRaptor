@@ -7,5 +7,6 @@ public interface Estante {
 	void guarda(Livro livro);
 	List<Livro> todosOsLivros();
 	Livro buscaPorIsbn(String isbn);
+	void exclui(String isbn);
 
 }
