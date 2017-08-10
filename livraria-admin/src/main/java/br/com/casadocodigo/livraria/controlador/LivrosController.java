@@ -1,11 +1,14 @@
 package br.com.casadocodigo.livraria.controlador;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import br.com.caelum.vraptor.Get;
 import br.com.caelum.vraptor.Path;
 import br.com.caelum.vraptor.Resource;
 import br.com.caelum.vraptor.Result;
+import br.com.caelum.vraptor.Validator;
+import br.com.caelum.vraptor.validator.ValidationMessage;
 import br.com.caelum.vraptor.view.Results;
 import br.com.casadocodigo.livraria.modelo.Estante;
 import br.com.casadocodigo.livraria.modelo.Livro;
@@ -20,8 +23,9 @@ sistema.*/
 @Resource
 public class LivrosController {
 
-	public final Estante estante;
-	public final Result result;
+	private Estante estante;
+	private Result result;
+	private Validator validator;
 
 	// Preferir receber interfaces como dependências
 	// principalmente quando a implementação depende de uma biblioteca externa.
@@ -61,16 +65,29 @@ public class LivrosController {
 	 * 
 	 * 
 	 */
+	
+	//Sobre o validator
+		/*Poderíamos controlar tudo isso manualmente, somente usando o result para
+		mudar o fluxo, mas como essa tarefa de validar se o objeto a ser salvo é bem comum,
+		existe um componente do VRaptor especializado em executar essas validações: o
+		Validator . Nele, podemos adicionar mensagens de erro de validação e, se houver
+		erros, redirecionar a requisição de volta para o formulário, ou seja, exatamente o que
+		a gente queria. Para ter acesso a esse componente, recebemo-lo no construtor. pag.69*/
 
-	public LivrosController(Estante estante, Result result) {
+	public LivrosController(Estante estante, Result result, Validator validator) {
 		this.estante = estante;
 		this.result = result;
+		this.validator = validator;
 	}
 	
 	/*Essa classe Result é o componente do VRaptor responsável pela personaliza-
 	ção do resultado final da execução do método do controller. Além de receber no
 	método, podemos recebê-lo no construtor da classe, principalmente se formos usar
-	o Result na maioria dos métodos.*/
+	o Result na maioria dos métodos.
+	  Mais sobre redirecionamento pg.60
+		Diferenças entre o redirectTo e o forwardTo pag.61
+		Praticar o uso do método use do Result pag.64
+	*/
 
 	public void formulario() {
 		// WEB-INF/jsp/livros/formulario.jsp
@@ -103,10 +120,19 @@ public class LivrosController {
 	public void salva(Livro livro) {
 		// WEB-INF/jsp/livros/salva.jsp
 
-		/*
-		 * par redirecionar o método, pois iremos agora apresentar uma mensagem de livro
-		 * adicionado e não mais utilizar a página salva.jsp
-		 */
+		//Infelizmente para a validação precisamos do if's
+		//Pelo que parece o Validator é utilizado para repassar mensagens para
+		//a view caso aconteçam erros.
+				
+		if(livro.getTitulo() == null) {
+			validator.add(new ValidationMessage("O título é obrigatório !", "titulo"));
+		}
+			
+		if (livro.getPreco() == null || livro.getPreco().compareTo(BigDecimal.ZERO) < 0) {
+			validator.add(new ValidationMessage("preço é obrigatório e deve ser positivo !", "preco"));
+		}
+				
+		validator.onErrorRedirectTo(this).formulario();
 
 		estante.guarda(livro);
 
@@ -150,6 +176,22 @@ public class LivrosController {
 			result.of(this).formulario();
 		}
 
+	}
+	
+	//Após executar esse método, a pagina de lista será chamada
+	public void exclui(String isbn) {
+		this.estante.exclui(isbn);
+			
+		result.include("mensagem", "Livro excluido com sucesso!");
+		result.redirectTo(this).lista();
+			
+	}
+	
+	public void serialize(String isbn) {
+		Livro livroEncontrado = estante.buscaPorIsbn(isbn);
+		
+		result.use(Results.json()).from(livroEncontrado).serialize();
+		
 	}
 
 }
