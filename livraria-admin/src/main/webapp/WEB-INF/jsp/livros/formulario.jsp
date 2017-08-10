@@ -27,9 +27,19 @@ troller e o método e ele retorna a URI correspondente, já com o context-path.
 Passamos o nome do controller entre colchetes e o nome do método após:
 ${linkTo[NomeDoController].nomeDoMetodo} --%>
 
-<!-- Após executar o método salva , o VRaptor automaticamente
+	<!-- Após executar o método salva , o VRaptor automaticamente
 redireciona para a página WEB-INF/jsp/livros/salva.jsp , na qual podemos
 indicar que o livro foi salvo. -->
+
+	<ul class="errors">
+		<c:forEach items="${errors}" var="error">
+			<li>
+				<!-- o campo em que ocorreu o erro, ou o tipo do erro -->
+				${error.category}: <!-- a mensagem de erro de validação -->
+				${error.message}
+			</li>
+		</c:forEach>
+	</ul>
 
 	<form action="${linkTo[LivrosController].salva}" method="post">
 		<input type="hidden" name="livro.id" value="${livro.id}" />
