@@ -22,6 +22,13 @@ public class AcervoNoAdmin implements Acervo {
 		
 		//Ver pg. 100 para explicação do funcionamento
 		
+		//sobre métodos http 
+		/*
+		 * A ideia é que, se usarmos cor- retamente as semânticas dos métodos, podemos
+		 * aproveitar toda a infraestrutura da internet, como proxies, load balancers e
+		 * outros intermediários entre o cliente e o servidor.
+		 */
+		
 		String url = "http://localhost:8080/livraria-admin/integracao/listaLivros";
 		String resposta = http.get(url);
 		
