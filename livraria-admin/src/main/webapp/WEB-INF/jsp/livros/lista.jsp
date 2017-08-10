@@ -27,9 +27,9 @@
 			<li>
 			
 			${livro.titulo} - ${livro.descricao} - 
-			<a href="${linkTo[LivrosController].edita}?isbn=${livro.isbn}">Modificar</a> - 
-			<a href="${linkTo[LivrosController].exclui}?isbn=${livro.isbn}">Excluir</a> - 
-			<a href="${linkTo[LivrosController].serialize}?isbn=${livro.isbn}">Serializar</a>
+			<a href="${linkTo[LivrosController].edita[livro.isbn]}">Modificar</a> - 
+			<a href="${linkTo[LivrosController].exclui[livro.isbn]}">Excluir</a> - 
+			<a href="${linkTo[LivrosController].serialize[livro.isbn]}">Serializar</a>
 			
 			</li>
 		</c:forEach>
