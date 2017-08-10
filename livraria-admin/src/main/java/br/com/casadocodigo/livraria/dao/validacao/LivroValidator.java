@@ -16,6 +16,10 @@ public class LivroValidator {
 	}
 
 	public void validate(Livro livro) {
+		
+		validator.validate(livro);
+		
+		//podemos criar outras lógicas aqui
 
 	}
 
