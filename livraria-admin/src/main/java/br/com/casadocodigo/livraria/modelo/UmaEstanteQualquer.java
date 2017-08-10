@@ -33,4 +33,11 @@ public class UmaEstanteQualquer implements Estante {
 		return null;
 	}
 
+	@Override
+	public void exclui(String isbn) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
 }
