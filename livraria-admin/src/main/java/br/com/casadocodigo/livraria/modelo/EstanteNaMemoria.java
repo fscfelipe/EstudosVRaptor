@@ -41,3 +41,4 @@ public class EstanteNaMemoria implements Estante {
 		this.dao.exclui(isbn);
 		
 	}
+}
