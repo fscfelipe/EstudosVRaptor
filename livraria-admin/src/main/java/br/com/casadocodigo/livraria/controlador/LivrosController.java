@@ -95,7 +95,7 @@ public class LivrosController {
 	 * método use do Result pag.64
 	 */
 
-	@Get("/livros/{isbn}")
+	@Get("/livros/formulario")
 	public void formulario() {
 		// WEB-INF/jsp/livros/formulario.jsp
 	}
