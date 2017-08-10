@@ -9,7 +9,7 @@ import br.com.caelum.vraptor.ioc.Component;
 gerenciada pelo VRaptor, que tentará procurar algum componente gerenciado que
 seja um LivroDAO , ou seja, que implemente essa interface.*/
 
-@Component
+
 public class EstanteNoBancoDeDados implements Estante {
 	
 	private final LivroDAO dao;
@@ -44,6 +44,12 @@ public class EstanteNoBancoDeDados implements Estante {
 	public Livro buscaPorIsbn(String isbn) {
 		// TODO Auto-generated method stub
 		return dao.buscaPorIsbn(isbn);
+	}
+
+	@Override
+	public void exclui(String isbn) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
