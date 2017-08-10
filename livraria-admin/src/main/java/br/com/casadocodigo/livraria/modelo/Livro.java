@@ -3,10 +3,11 @@ package br.com.casadocodigo.livraria.modelo;
 import java.math.BigDecimal;
 import java.util.Calendar;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
+
+import org.hibernate.validator.constraints.NotEmpty;
 
 
 /*No nosso sistema, acessaremos o banco de dados com a ajuda da JPA, a espe-
@@ -19,13 +20,14 @@ tidades para realizar as operações de persistência. Esse gerenciador se chama
 EntityManager , e será necessário para que o LivroDAO , baseado na JPA, realize
 o seu trabalho. Ou seja, uma dependência que também será recebida no construtor.*/
 
-@Entity
+
 public class Livro {
 	
-	@Id @GeneratedValue
+	
 	private Long id;
 	
-	@Column(unique=true)
+	
+	@NotEmpty(message = "Título deve ser preenchido!")
 	private String isbn;
 	
 	public Long getId() {
@@ -34,8 +36,13 @@ public class Livro {
 	public void setId(Long id) {
 		this.id = id;
 	}
+	
+	// Essa chave precisa estar no ValidationMessages.properties
+	@NotNull(message = "{campo.obrigatorio}")
 	private String titulo;
 	private String descricao;
+	
+	@NotNull @DecimalMin("0.0")
 	private BigDecimal preco;
 	private Calendar dataPublicacao;
 	
@@ -63,6 +70,8 @@ public class Livro {
 	public void setPreco(BigDecimal preco) {
 		this.preco = preco;
 	}
+	
+	@Past
 	public Calendar getDataPublicacao() {
 		return dataPublicacao;
 	}
