@@ -5,6 +5,8 @@ import java.util.List;
 
 import br.com.caelum.vraptor.Get;
 import br.com.caelum.vraptor.Path;
+import br.com.caelum.vraptor.Post;
+import br.com.caelum.vraptor.Put;
 import br.com.caelum.vraptor.Resource;
 import br.com.caelum.vraptor.Result;
 import br.com.caelum.vraptor.Validator;
@@ -93,11 +95,13 @@ public class LivrosController {
 	 * método use do Result pag.64
 	 */
 
+	@Get("/livros/{isbn}")
 	public void formulario() {
 		// WEB-INF/jsp/livros/formulario.jsp
 	}
 
 	// public List<Livro> lista()
+	@Get @Path("/livros") // ou @Get("/livros")
 	public void lista() {
 		// WEB-INF/jsp/livros/lista.jsp
 
@@ -120,6 +124,7 @@ public class LivrosController {
 
 	}
 
+	@Post("/livros")
 	public void salva(Livro livro) {
 		// WEB-INF/jsp/livros/salva.jsp
 
@@ -145,6 +150,8 @@ public class LivrosController {
 		result.redirectTo(this).lista();
 	}
 
+	@Get
+	@Path(value="/livros/{isbn}", priority=Path.LOWEST)
 	public void edita(String isbn) {
 		/*
 		 * Este método recebe o Result com parâmetro será utilizado para redirecionar a
@@ -174,8 +181,9 @@ public class LivrosController {
 		}
 
 	}
-
+	
 	// Após executar esse método, a pagina de lista será chamada
+	@Get("/livros/exclui/{isbn}")
 	public void exclui(String isbn) {
 		this.estante.exclui(isbn);
 
@@ -184,6 +192,7 @@ public class LivrosController {
 
 	}
 
+	@Get("/livros/serialize/{isbn}")
 	public void serialize(String isbn) {
 		Livro livroEncontrado = estante.buscaPorIsbn(isbn);
 
