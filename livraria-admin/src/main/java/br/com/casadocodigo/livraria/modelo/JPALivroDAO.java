@@ -22,7 +22,7 @@ forma, o VRaptor teria que instanciar uma classe do Hibernate. Podemos colocar
 
 */
 
-@Component
+//@Component
 public class JPALivroDAO implements LivroDAO {
 
 	private final EntityManager manager;
@@ -64,6 +64,18 @@ public class JPALivroDAO implements LivroDAO {
 		} catch (NoResultException e) {
 			return null;
 		}
+	}
+	
+	@Override
+	public void popular() {
+		//sem implementação
+		
+	}
+
+	@Override
+	public void exclui(String isbn) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
