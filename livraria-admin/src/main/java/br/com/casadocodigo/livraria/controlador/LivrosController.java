@@ -8,6 +8,7 @@ import java.util.List;
 
 import com.google.common.io.ByteStreams;
 
+import br.com.caelum.vraptor.Delete;
 import br.com.caelum.vraptor.Get;
 import br.com.caelum.vraptor.Path;
 import br.com.caelum.vraptor.Post;
@@ -203,6 +204,7 @@ public class LivrosController {
 	}
 
 	// Após executar esse método, a pagina de lista será chamada
+	//Retirar o get para quem não for admin não utilizar
 	@Get("/livros/exclui/{isbn}")
 	public void exclui(String isbn) {
 		this.estante.exclui(isbn);
