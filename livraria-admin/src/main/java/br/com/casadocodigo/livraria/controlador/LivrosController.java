@@ -21,6 +21,7 @@ import br.com.caelum.vraptor.interceptor.multipart.UploadedFile;
 import br.com.caelum.vraptor.validator.I18nMessage;
 import br.com.caelum.vraptor.validator.ValidationMessage;
 import br.com.caelum.vraptor.view.Results;
+import br.com.casadocodigo.livraria.anotacoes.Transacional;
 import br.com.casadocodigo.livraria.dao.Diretorio;
 import br.com.casadocodigo.livraria.dao.controlador.Estante;
 import br.com.casadocodigo.livraria.modelo.Arquivo;
@@ -115,6 +116,7 @@ public class LivrosController {
 	// public List<Livro> lista()
 	@Get
 	@Path("/livros") // ou @Get("/livros")
+	@Transacional
 	public void lista() {
 		// WEB-INF/jsp/livros/lista.jsp
 
