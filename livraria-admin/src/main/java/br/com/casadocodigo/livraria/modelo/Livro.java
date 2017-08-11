@@ -10,6 +10,8 @@ import javax.validation.constraints.Past;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
+import br.com.casadocodigo.livraria.utils.Moeda;
+
 /*No nosso sistema, acessaremos o banco de dados com a ajuda da JPA, a espe-
 cificação do Java para persistência de objetos. Esses objetos persistidos no banco
 recebem o nome de entidade, então, para indicar que um Livro tem esse papel,
@@ -23,18 +25,18 @@ o seu trabalho. Ou seja, uma dependência que também será recebida no construt
 public class Livro {
 
 	private Long id;
-	private String capa;
+	private Moeda moeda;
+
+	public Moeda getMoeda() {
+		return moeda;
+	}
+
+	public void setMoeda(Moeda moeda) {
+		this.moeda = moeda;
+	}
 
 	@NotEmpty(message = "Título deve ser preenchido!")
 	private String isbn;
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
 
 	// Essa chave precisa estar no ValidationMessages.properties
 	@NotNull(message = "{campo.obrigatorio}")
@@ -45,6 +47,14 @@ public class Livro {
 	@DecimalMin("0.0")
 	private BigDecimal preco;
 	private Calendar dataPublicacao;
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
 
 	public String getTitulo() {
 		return titulo;
