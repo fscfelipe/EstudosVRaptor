@@ -8,6 +8,7 @@ import br.com.caelum.vraptor.core.InterceptorStack;
 import br.com.caelum.vraptor.interceptor.Interceptor;
 import br.com.caelum.vraptor.ioc.RequestScoped;
 import br.com.caelum.vraptor.resource.ResourceMethod;
+import br.com.casadocodigo.livraria.anotacoes.Transacional;
 
 @Intercepts
 @RequestScoped
@@ -24,7 +25,25 @@ public class TransacoesInterceptor implements Interceptor {
 	
 	@Override
 	public boolean accepts(ResourceMethod method) {
-		return true;
+		
+		/*
+		 * Quando criamos o TransacoesInterceptor , implementamos o método accepts
+		 * retornando true . Isso significa que ele vai interceptar todos os métodos de
+		 * controller, ou seja, todas as requisições web. Mas nem sempre isso é o
+		 * desejável. Embora essa solução seja suficiente para um sistema pouco
+		 * acessado, para um sis- tema com muitos acessos, criar transações a cada
+		 * requisição pode ser um problema e deixar o sistema mais lento do que deveria.
+		 */
+		
+		//return true;
+		
+		//Nesse caso o interceptador irá executar somente com os métodos que estiverem com 
+		//a anotação @Transacional
+		return method.containsAnnotation(Transacional.class);
+		
+		//Podemos também usar a condição de não executar métodos
+		//que utilizam uma anotação HTTP específica
+		//return !method.containsAnnotation(Get.class);
 	}
 
 	@Override
