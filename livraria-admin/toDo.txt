@@ -1,0 +1,3 @@
+Algumas funcionalidades que podem ser implementadas
+
+- Gerar relatório em pdf (pag. 119)
