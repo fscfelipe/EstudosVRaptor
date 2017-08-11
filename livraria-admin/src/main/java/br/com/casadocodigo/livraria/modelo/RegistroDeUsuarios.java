@@ -24,12 +24,19 @@ public class RegistroDeUsuarios {
 	}
 	
 	public void usuarioPadrao() {
-		Usuario u = new Usuario();
-		u.setAdmin(true);
-		u.setSenha("123");
-		u.setLogin("admin");
+		Usuario u1 = new Usuario();
+		u1.setAdmin(true);
+		u1.setSenha("123");
+		u1.setLogin("admin");
 		
-		lista.add(u);
+		lista.add(u1);
+		
+		Usuario u2 = new Usuario();
+		u2.setAdmin(false);
+		u2.setSenha("123");
+		u2.setLogin("noAdmin");
+		
+		lista.add(u2);
 	}
 
 }
