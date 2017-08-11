@@ -1,7 +1,12 @@
 package br.com.casadocodigo.livraria.controlador;
 
+import java.io.IOException;
 import java.math.BigDecimal;
+import java.net.URI;
+import java.util.Calendar;
 import java.util.List;
+
+import com.google.common.io.ByteStreams;
 
 import br.com.caelum.vraptor.Get;
 import br.com.caelum.vraptor.Path;
@@ -10,10 +15,13 @@ import br.com.caelum.vraptor.Put;
 import br.com.caelum.vraptor.Resource;
 import br.com.caelum.vraptor.Result;
 import br.com.caelum.vraptor.Validator;
+import br.com.caelum.vraptor.interceptor.multipart.UploadedFile;
 import br.com.caelum.vraptor.validator.I18nMessage;
 import br.com.caelum.vraptor.validator.ValidationMessage;
 import br.com.caelum.vraptor.view.Results;
+import br.com.casadocodigo.livraria.dao.Diretorio;
 import br.com.casadocodigo.livraria.dao.controlador.Estante;
+import br.com.casadocodigo.livraria.modelo.Arquivo;
 import br.com.casadocodigo.livraria.modelo.Livro;
 
 /* Para que o VRaptor passe a gerenciar essa classe como um controlador, preci-
@@ -29,6 +37,7 @@ public class LivrosController {
 	private Estante estante;
 	private Result result;
 	private Validator validator;
+	private Diretorio imagens;
 
 	// Preferir receber interfaces como dependências
 	// principalmente quando a implementação depende de uma biblioteca externa.
@@ -80,8 +89,9 @@ public class LivrosController {
 	 * componente, recebemo-lo no construtor. pag.69
 	 */
 
-	public LivrosController(Estante estante, Result result, Validator validator) {
+	public LivrosController(Estante estante,Diretorio imagens, Result result, Validator validator) {
 		this.estante = estante;
+		this.imagens = imagens;
 		this.result = result;
 		this.validator = validator;
 	}
@@ -124,8 +134,9 @@ public class LivrosController {
 
 	}
 
+	
 	@Post("/livros")
-	public void salva(Livro livro) {
+	public void salva(final Livro livro, UploadedFile capa) throws IOException {
 		// WEB-INF/jsp/livros/salva.jsp
 
 		// Infelizmente para a validação precisamos do if's
@@ -136,6 +147,15 @@ public class LivrosController {
 
 		validator.onErrorRedirectTo(this).formulario();
 
+		if (capa != null) {
+			URI imagemCapa = imagens.grava(new Arquivo(
+			capa.getFileName(),
+			ByteStreams.toByteArray(capa.getFile()),
+			capa.getContentType(),
+			Calendar.getInstance()));
+			livro.setCapa(imagemCapa);
+		}
+		
 		estante.guarda(livro);
 
 		/*
