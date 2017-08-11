@@ -15,6 +15,8 @@ import br.com.caelum.vraptor.Put;
 import br.com.caelum.vraptor.Resource;
 import br.com.caelum.vraptor.Result;
 import br.com.caelum.vraptor.Validator;
+import br.com.caelum.vraptor.interceptor.download.ByteArrayDownload;
+import br.com.caelum.vraptor.interceptor.download.Download;
 import br.com.caelum.vraptor.interceptor.multipart.UploadedFile;
 import br.com.caelum.vraptor.validator.I18nMessage;
 import br.com.caelum.vraptor.validator.ValidationMessage;
@@ -89,7 +91,7 @@ public class LivrosController {
 	 * componente, recebemo-lo no construtor. pag.69
 	 */
 
-	public LivrosController(Estante estante,Diretorio imagens, Result result, Validator validator) {
+	public LivrosController(Estante estante, Diretorio imagens, Result result, Validator validator) {
 		this.estante = estante;
 		this.imagens = imagens;
 		this.result = result;
@@ -111,7 +113,8 @@ public class LivrosController {
 	}
 
 	// public List<Livro> lista()
-	@Get @Path("/livros") // ou @Get("/livros")
+	@Get
+	@Path("/livros") // ou @Get("/livros")
 	public void lista() {
 		// WEB-INF/jsp/livros/lista.jsp
 
@@ -134,7 +137,6 @@ public class LivrosController {
 
 	}
 
-	
 	@Post("/livros")
 	public void salva(final Livro livro, UploadedFile capa) throws IOException {
 		// WEB-INF/jsp/livros/salva.jsp
@@ -148,15 +150,10 @@ public class LivrosController {
 		validator.onErrorRedirectTo(this).formulario();
 
 		if (capa != null) {
-			imagens.grava(new Arquivo(
-				capa.getFileName(),
-				ByteStreams.toByteArray(capa.getFile()),
-				capa.getContentType(),
-				Calendar.getInstance(), 
-				livro.getIsbn()
-			));
+			imagens.grava(new Arquivo(capa.getFileName(), ByteStreams.toByteArray(capa.getFile()),
+					capa.getContentType(), Calendar.getInstance(), livro.getIsbn()));
 		}
-		
+
 		estante.guarda(livro);
 
 		/*
@@ -172,7 +169,7 @@ public class LivrosController {
 	}
 
 	@Get
-	@Path(value="/livros/{isbn}", priority=Path.LOWEST)
+	@Path(value = "/livros/{isbn}", priority = Path.LOWEST)
 	public void edita(String isbn) {
 		/*
 		 * Este método recebe o Result com parâmetro será utilizado para redirecionar a
@@ -202,7 +199,7 @@ public class LivrosController {
 		}
 
 	}
-	
+
 	// Após executar esse método, a pagina de lista será chamada
 	@Get("/livros/exclui/{isbn}")
 	public void exclui(String isbn) {
@@ -218,6 +215,21 @@ public class LivrosController {
 		Livro livroEncontrado = estante.buscaPorIsbn(isbn);
 
 		result.use(Results.json()).from(livroEncontrado).serialize();
+
+	}
+
+	@Get("/livros/{isbn}/capa")
+	public Download capa(String isbn) {
+		Livro livro = estante.buscaPorIsbn(isbn);
+
+		Arquivo capa = imagens.recupera(livro.getIsbn());
+
+		if (capa == null) {
+			result.notFound();
+			return null;
+		}
+
+		return new ByteArrayDownload(capa.getConteudo(), capa.getContentType(), capa.getNome());
 
 	}
 

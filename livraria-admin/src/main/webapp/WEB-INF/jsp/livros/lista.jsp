@@ -26,6 +26,8 @@
 		<c:forEach items="${livros}" var="livro">
 			<li>
 			
+			<img src="${linkTo[LivrosController].capa[livro.isbn] }" width="50" height="50"> -
+			
 			${livro.titulo} - ${livro.descricao} - 
 			<a href="${linkTo[LivrosController].edita[livro.isbn]}">Modificar</a> - 
 			<a href="${linkTo[LivrosController].exclui[livro.isbn]}">Excluir</a> - 
