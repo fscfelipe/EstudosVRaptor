@@ -6,4 +6,6 @@ vai executar logo antes do método do controller e logo depois desse método.
 	- controle de acesso
 	- controle de transações
 	- log de erros
-	- ...
+	- utilização da anotação @Transacional
+	para interceptar somente os métodos anotados
+	
