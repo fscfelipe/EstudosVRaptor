@@ -1,6 +1,7 @@
 package br.com.casadocodigo.livraria.interceptors;
 
 import br.com.caelum.vraptor.InterceptionException;
+import br.com.caelum.vraptor.Intercepts;
 import br.com.caelum.vraptor.Result;
 import br.com.caelum.vraptor.core.InterceptorStack;
 import br.com.caelum.vraptor.interceptor.Interceptor;
@@ -8,6 +9,7 @@ import br.com.caelum.vraptor.resource.ResourceMethod;
 import br.com.casadocodigo.livraria.controlador.LoginController;
 import br.com.casadocodigo.livraria.modelo.UsuarioLogado;
 
+@Intercepts
 public class AutenticacaoInterceptor implements Interceptor {
 	
 	// Ver pag.134
