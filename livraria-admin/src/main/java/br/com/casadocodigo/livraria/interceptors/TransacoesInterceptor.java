@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import br.com.caelum.vraptor.InterceptionException;
 import br.com.caelum.vraptor.Intercepts;
+import br.com.caelum.vraptor.Lazy;
 import br.com.caelum.vraptor.core.InterceptorStack;
 import br.com.caelum.vraptor.interceptor.Interceptor;
 import br.com.caelum.vraptor.ioc.RequestScoped;
@@ -12,7 +13,15 @@ import br.com.casadocodigo.livraria.anotacoes.Transacional;
 
 @Intercepts
 @RequestScoped
+@Lazy
 public class TransacoesInterceptor implements Interceptor {
+	
+	/*
+	 * Sobre lazy, pag.128. [..] Para resolver esse problema, podemos usar a
+	 * anotação @Lazy . Com ela, o VRap- tor guarda uma instância não funcional do
+	 * interceptor só para invocar o método accepts . Assim, ele só instancia o
+	 * interceptor caso o accepts retorne true .
+	 */
 	
 	//O exemplo a seguir é somente para teste e ilustração.
 	//Ele faz um log dos métodos que forem chamados pela requisição
@@ -61,6 +70,12 @@ public class TransacoesInterceptor implements Interceptor {
         stack.next(method, controller); // continua a execução
 
         // código a ser executádo depois da lógica
+        
+        //Podemos usar interceptors para redirecionar a requisição
+        //ver pag.129
+        
+        //Podemos determinar a ordem de execução dos interceptor
+        //ver pag.130
 
 	}
 
