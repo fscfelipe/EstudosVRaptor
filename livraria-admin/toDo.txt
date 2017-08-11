@@ -1,3 +1,9 @@
 Algumas funcionalidades que podem ser implementadas
 
 - Gerar relatório em pdf (pag. 119)
+- Interceptors (pag. 121) - Ferramenta para implementar aspectos* (funcionam como servlet filters)
+vai executar logo antes do método do controller e logo depois desse método.
+	- controle de acesso
+	- controle de transações
+	- log de erros
+	- ...
