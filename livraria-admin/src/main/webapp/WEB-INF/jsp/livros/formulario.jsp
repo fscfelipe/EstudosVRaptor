@@ -42,7 +42,7 @@ indicar que o livro foi salvo. -->
 	</ul>
 
 	<!-- A utilização deste enctype é por causa que possui arquivos no conteúdo -->
-	<form action="${linkTo[LivrosController].salva}" method="post">
+	<form action="${linkTo[LivrosController].salva}" method="post" enctype="multipart/form-data">
 		<input type="hidden" name="livro.id" value="${livro.id}" />
 
 		<h2>Formulário de cadastro de livros</h2>
