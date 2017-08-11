@@ -6,7 +6,7 @@ import br.com.casadocodigo.livraria.modelo.Arquivo;
 
 public interface Diretorio {
 	
-	URI grava(Arquivo arquivo);
-	Arquivo recupera(URI chave);
+	void grava(Arquivo arquivo);
+	Arquivo recupera(String isbnLivro);
 
 }

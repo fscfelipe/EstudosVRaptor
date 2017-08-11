@@ -78,16 +78,6 @@ public class Livro {
 		this.preco = preco;
 	}
 
-	public URI getCapa() {
-		if (capa == null)
-			return null;
-		return URI.create(capa);
-	}
-
-	public void setCapa(URI capa) {
-		this.capa = capa == null ? null : capa.toString();
-	}
-
 	@Past
 	public Calendar getDataPublicacao() {
 		return dataPublicacao;

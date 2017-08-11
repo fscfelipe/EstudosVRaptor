@@ -148,12 +148,13 @@ public class LivrosController {
 		validator.onErrorRedirectTo(this).formulario();
 
 		if (capa != null) {
-			URI imagemCapa = imagens.grava(new Arquivo(
-			capa.getFileName(),
-			ByteStreams.toByteArray(capa.getFile()),
-			capa.getContentType(),
-			Calendar.getInstance()));
-			livro.setCapa(imagemCapa);
+			imagens.grava(new Arquivo(
+				capa.getFileName(),
+				ByteStreams.toByteArray(capa.getFile()),
+				capa.getContentType(),
+				Calendar.getInstance(), 
+				livro.getIsbn()
+			));
 		}
 		
 		estante.guarda(livro);
