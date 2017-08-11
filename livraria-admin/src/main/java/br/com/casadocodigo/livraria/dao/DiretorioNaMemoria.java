@@ -22,7 +22,12 @@ public class DiretorioNaMemoria implements Diretorio {
 
 	@Override
 	public Arquivo recupera(String isbnLivro) {
-		// TODO Auto-generated method stub
+		for(Arquivo el: lista) {
+			if(el.getIsbnLivro().equals(isbnLivro)) {
+				return el;
+			}
+		}
+		
 		return null;
 	}
 
