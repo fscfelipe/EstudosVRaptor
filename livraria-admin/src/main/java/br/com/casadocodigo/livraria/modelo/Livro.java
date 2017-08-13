@@ -25,14 +25,14 @@ o seu trabalho. Ou seja, uma dependência que também será recebida no construt
 public class Livro {
 
 	private Long id;
-	private Moeda moeda;
+	private Dinheiro preco;
 
-	public Moeda getMoeda() {
-		return moeda;
+	public Dinheiro getDinheiro() {
+		return this.preco;
 	}
 
-	public void setMoeda(Moeda moeda) {
-		this.moeda = moeda;
+	public void setDinheiro(Dinheiro preco) {
+		this.preco = preco;
 	}
 
 	@NotEmpty(message = "Título deve ser preenchido!")
@@ -43,9 +43,6 @@ public class Livro {
 	private String titulo;
 	private String descricao;
 
-	@NotNull
-	@DecimalMin("0.0")
-	private BigDecimal preco;
 	private Calendar dataPublicacao;
 
 	public Long getId() {
@@ -78,14 +75,6 @@ public class Livro {
 
 	public void setIsbn(String isbn) {
 		this.isbn = isbn;
-	}
-
-	public BigDecimal getPreco() {
-		return preco;
-	}
-
-	public void setPreco(BigDecimal preco) {
-		this.preco = preco;
 	}
 
 	@Past
