@@ -23,15 +23,18 @@ EntityManager , e será necessário para que o LivroDAO , baseado na JPA, realiz
 o seu trabalho. Ou seja, uma dependência que também será recebida no construtor.*/
 
 public class Livro {
+	
+	//Retire o uso do 'Dinheiro'
 
 	private Long id;
-	private Dinheiro preco;
+	private BigDecimal preco;
 
-	public Dinheiro getDinheiro() {
+	public BigDecimal getPreco() {
 		return this.preco;
 	}
 
-	public void setDinheiro(Dinheiro preco) {
+	@NotNull @DecimalMin("0.0")
+	public void setPreco(BigDecimal preco) {
 		this.preco = preco;
 	}
 
