@@ -27,14 +27,15 @@ public class Livro {
 	//Retire o uso do 'Dinheiro'
 
 	private Long id;
-	private BigDecimal preco;
-
-	public BigDecimal getPreco() {
+	//private BigDecimal preco;
+	private Dinheiro preco;
+	
+	public Dinheiro getPreco() {
 		return this.preco;
 	}
 
 	@NotNull @DecimalMin("0.0")
-	public void setPreco(BigDecimal preco) {
+	public void setPreco(Dinheiro preco) {
 		this.preco = preco;
 	}
 
