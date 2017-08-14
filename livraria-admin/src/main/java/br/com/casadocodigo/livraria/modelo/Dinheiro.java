@@ -31,7 +31,7 @@ public class Dinheiro {
 
 	@Override
 	public String toString() {
-		return String.format("Dinheiro(%s %s)", moeda.getSimbolo(), montante);
+		return String.format("%s %s", moeda.getSimbolo(), montante);
 	}
 
 	@Override
