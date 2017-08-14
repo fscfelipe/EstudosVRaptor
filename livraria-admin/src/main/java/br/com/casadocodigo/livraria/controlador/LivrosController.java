@@ -205,7 +205,8 @@ public class LivrosController {
 
 	// Após executar esse método, a pagina de lista será chamada
 	//Retirar o get para quem não for admin não utilizar
-	@Get("/livros/exclui/{isbn}")
+	@Delete
+	@Path("/livros/{isbn}")
 	public void exclui(String isbn) {
 		this.estante.exclui(isbn);
 

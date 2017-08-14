@@ -31,7 +31,11 @@
 			${livro.titulo} - ${livro.descricao} - 
 			<a href="${linkTo[LivrosController].edita[livro.isbn]}">Modificar</a> - 
 			<a href="${linkTo[LivrosController].exclui[livro.isbn]}">Excluir</a> - 
-			<a href="${linkTo[LivrosController].serialize[livro.isbn]}">Serializar</a>
+			<a href="${linkTo[LivrosController].serialize[livro.isbn]}">Serializar</a> - 
+			 <form action="${linkTo[LivrosController].exclui[livro.isbn]}" method="post">
+			 <input type="hidden" name="_method" value="DELETE" />
+			  <input type="submit" value="Excluir teste">
+			</form> 
 			
 			</li>
 		</c:forEach>
