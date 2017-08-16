@@ -13,7 +13,7 @@ private Long id;
 	private String isbn;
 	private String titulo;
 	private String descricao;
-	private BigDecimal preco;
+	private Dinheiro preco;
 	private Calendar dataPublicacao;
 	
 	public Long getId() {
@@ -41,10 +41,10 @@ private Long id;
 	public void setIsbn(String isbn) {
 		this.isbn = isbn;
 	}
-	public BigDecimal getPreco() {
+	public Dinheiro getPreco() {
 		return preco;
 	}
-	public void setPreco(BigDecimal preco) {
+	public void setPreco(Dinheiro preco) {
 		this.preco = preco;
 	}
 	
