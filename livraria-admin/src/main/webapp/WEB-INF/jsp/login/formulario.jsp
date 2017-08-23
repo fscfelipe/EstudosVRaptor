@@ -4,6 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="decorator" content="main" />
 <title>Login</title>
 </head>
 <body>
@@ -17,20 +18,33 @@
 			</c:forEach>
 	</ul>
 	
-	<form action="${ linkTo[LoginController].login }" method="post">
-	<h2>Formulário de login</h2>
-	
-		<ul>
-			<li>
-				Login: <input type="text" name="login">
-			</li>
-			<li>
-				Senha: <input type="text" name="senha">
-			</li>
-		
-		</ul>
-			<input type="submit" value="Login"/>
-	</form>
+	<div class="container">
+		<fieldset class="form-group">
+			<legend>Login</legend>
+			<hr>
+			<form action="${ linkTo[LoginController].login }" method="post">	
+				<div class="form-group row">
+					<label for="login" class="col-2 col-form-label">Usuário:</label>
+					<div class="col-10">
+						<input class="form-control" type="text" name="login" id="login">
+					</div>
+				</div>
+				
+				<div class="form-group row">
+					<label for="login" class="col-2 col-form-label">Senha:</label>
+					<div class="col-10">
+						<input class="form-control" type="text" name="senha" id="senha">
+					</div>
+				</div>
+				
+				<div class="form-group row justify-content-around">
+					<div class="col-8">
+						<input class="btn btn-primary" type="submit" value="Login" id="btnLogin"/>
+					</div>
+				</div>	
+			</form>
+		</fieldset>
+	</div>
 		
 </body>
 </html>
