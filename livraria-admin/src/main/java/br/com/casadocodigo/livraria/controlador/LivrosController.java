@@ -210,8 +210,9 @@ public class LivrosController {
 	public void exclui(String isbn) {
 		this.estante.exclui(isbn);
 
-		result.include("mensagem", "Livro excluido com sucesso!");
-		result.redirectTo(this).lista();
+		/*result.include("mensagem", "Livro excluido com sucesso!");
+		result.redirectTo(this).lista();*/
+		result.nothing();
 
 	}
 
